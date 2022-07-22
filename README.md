@@ -1,6 +1,6 @@
-# cq-scratch-org-creator README
+# CQ Scratch Org Creator 
+👋 A simple tool to create salesforce scratch orgs. Using 👀 [![Version](images/jenkins.png)](https://www.jenkins.io/) and 👀 `Salesforce CLI`.  
 
-This is the README for your extension "cq-scratch-org-creator". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
@@ -8,7 +8,7 @@ Describe specific features of your extension including screenshots of your exten
 
 For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+![CQ Scratch Org Creator](images/cqimg.png)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
