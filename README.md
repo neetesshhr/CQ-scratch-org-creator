@@ -1,5 +1,5 @@
 # CQ Scratch Org Creator 
-👋 A simple tool to create salesforce scratch orgs. Using 👀 [![Version](images/jenkins.png)](https://www.jenkins.io/) and 👀 `Salesforce CLI`.  
+👋 A simple tool to create salesforce scratch orgs. Using 👀[![Jenkins LTS Release](https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.jenkins.io%2Fchangelog-stable%2Fbadge.json)](https://www.jenkins.io/changelog-stable) and 👀 `Salesforce CLI`.  
 
 
 ## Features
