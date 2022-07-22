@@ -10,9 +10,12 @@ export async function sfdxorgcreator() {
     let jsonafterData:any;
     let jsonbeforeData:any;
     let jobName:any;
+    var REQ_INC = Math.random().toString(36).substring(2,7);
+    var URL:any;
     let jobToken:any;
+    var PORT:any;
 //Read user previously stored data ----------------------------------
-const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', 'utf8');
+const beforedata =  fs.readFileSync('D:/CQExtension/CQ-scratch-org-creator/src/json/awt.json', 'utf8');
        jsonbeforeData = JSON.parse(beforedata);
        
        //user input data ---------------------------------------
@@ -90,12 +93,14 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
                          });
               console.log(environment);
 
-              isWorking = await vscode.window.showInputBox({
-                prompt:'isWorking : true ? false',
-                placeHolder: 'isWorking : true ? false',
-                         });
-              console.log(isWorking);
-        
+              URL = await vscode.window.showInputBox({
+                prompt:'URL',
+                placeHolder: 'URL',
+              });  
+               PORT = await vscode.window.showInputBox({
+                prompt:'PORT',
+                placeHolder: 'PORT',
+              });
         
             const newData = {
                 sfUsername: username,
@@ -110,7 +115,7 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
             const stringify = JSON.stringify(newData);
         
           //  write new data to .json file; ---------------------------------------        
-            await fs.writeFile('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', stringify, (err: any) => {
+            await fs.writeFile('D:/CQExtension/CQ-scratch-org-creator/src/json/awt.json', stringify, (err: any) => {
                 // error checking
                 if(err) {throw err;};        
                 console.log("New data added");
@@ -127,8 +132,8 @@ let sfIsWorkingjson:any;
 let sfjobNamejson:any;
 let afterdata:any;
 
-        setTimeout(function(){
-         afterdata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', 'utf8');
+setTimeout(function(){
+         afterdata =  fs.readFileSync('D:/CQExtension/CQ-scratch-org-creator/src/json/awt.json', 'utf8');
          jsonafterData = JSON.parse(afterdata);
          console.log(jsonafterData);
          //Get data from json file ------------------------------------
@@ -147,20 +152,30 @@ let afterdata:any;
 
         var jenkinsapi = require('jenkins-api');
 
-        function jenkinsap(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,){
-
-                          console.log(username);
+        function jenkinsap(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,) 
+        {
                           //login to jenkins server remotely:
-                          var jenkins = jenkinsapi.init(`http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);
-                          console.log(jenkins);
-                    console.log(jobtoken);
+                          var jenkins = jenkinsapi.init(`http://${sfUsernamejson}:${sfPasswordsjson}@${URL}:${PORT}`);
+                    
                     //specifying particular job name and its token
-        jenkins.build(`${jobname}`, {token:`${jobtoken}`}, function(err:any, data:any) {
-            if (err){ return console.log(err); }
-            console.log(data);
-          });
-        }
-
+                   jenkins.build_with_params(`${jobName}`,
+                    {
+                    depth: 1, 
+                    "IMAGE_NAME": `${sfImageNamejson}`,
+                    "IMAGE_TAG": `${sfImageTagjson}`,
+                    "ENVIROMENT": `${sfEnvironmentjson}`,
+                    
+                    "REQ_INC": `${REQ_INC}`,
+                    token:`${jobToken}`
+                    }, 
+                 function(err:any, data:any){
+                      if(err) { 
+                        return vscode.window.showErrorMessage(err);}
+                 
+                    vscode.window.showInformationMessage("Job has been triggered with statuscode"+ data.statusCode);
+                    });
+                   
 
     }
+}
         
