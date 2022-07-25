@@ -157,7 +157,6 @@ export async function sfdxorgcreator() {
         await fs.writeFile(`${dirPath}/cq.json`, stringify, (err: any) => {
             // error checking
             if(err) {throw err;};        
-            console.log("New data added");
         });
     
 
@@ -174,7 +173,6 @@ export async function sfdxorgcreator() {
                 }
             }
                      });
-          console.log(username);
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
             placeHolder: 'Plese!! Enter Your password',
@@ -185,7 +183,6 @@ export async function sfdxorgcreator() {
                 }
             }
                      });
-          console.log(password);
 
           jobName = await vscode.window.showInputBox({
             prompt:'Enter Job Name',
@@ -199,7 +196,6 @@ export async function sfdxorgcreator() {
             }
 
                      });
-          console.log(jobName);
     //jenkins job name
           jobToken = await vscode.window.showInputBox({
             prompt:'Enter Job token',
@@ -212,7 +208,6 @@ export async function sfdxorgcreator() {
                 }
             }
                      });
-          console.log(jobToken);
 
           const newData = {
             sfUsername: username,
@@ -226,7 +221,6 @@ export async function sfdxorgcreator() {
         await fs.writeFile(`${dirPath}/cq.json`, stringify, (err: any) => {
             // error checking
             if(err) {throw err;};        
-            console.log("New data added");
         });
       }
 //---------------------------------------------------------------------------------
@@ -242,7 +236,6 @@ let afterdata:any;
         setTimeout(function(){
          afterdata =  fs.readFileSync(`${dirPath}/cq.json`, 'utf8');
          jsonafterData = JSON.parse(afterdata);
-         console.log(jsonafterData);
          //Get data from json file ------------------------------------
          sfUsernamejson = jsonafterData.sfUsername;
          sfPasswordsjson = jsonafterData.sfPassword;
@@ -273,12 +266,10 @@ let afterdata:any;
                          "REQ_INC": `${REQ_INC}`,token:`${jobtoken}`, }, function(err:any, data:any){
                          
                            if(err) {  
-                            vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");
-                            console.log(err);
+                            vscode.window.showWarningMessage(`Your Build ${jobName} Has Failed : Try Again or Check The Input`);
                           }
                            else{
-                            console.log(data);
-                            vscode.window.showInformationMessage("Your Build  Has  Triggered Succesfully");
+                            vscode.window.showInformationMessage(`Your Build ${jobName} Has  Triggered Succesfully`);
                            }
                          
                          
@@ -287,12 +278,11 @@ let afterdata:any;
                         console.log("jenkins normal build");
                         jenkins.build(`${jobname}`, {token:`${jobtoken}`}, function(err:any, data:any) {
                             if(err){
-                              vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");
-                              console.log(err);
+                              vscode.window.showWarningMessage(`Your Build ${jobName} Has Failed with status 400: Try Again or Check The Input`);
                             }
                             else{
-                                vscode.window.showInformationMessage("Your Build  Has Triggered succesfully");
-                                console.log(`Your Build ${jobname} has run succesfully`);
+                                vscode.window.showInformationMessage(`Your Build ${jobname} Has Triggered succesfully with status 201`);
+                                
                             }
                           });  
                     }
