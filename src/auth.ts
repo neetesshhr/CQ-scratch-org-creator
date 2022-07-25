@@ -1,6 +1,13 @@
 import { rejects } from 'assert';
 import { resolve } from 'path';
 import * as vscode from 'vscode';
+import * as data from "./json/awt.json";
+const {exec} = require("child_process");
+const path = require('path');
+
+
+
+const os = require('os');
 const fs = require('fs');
 export async function sfdxorgcreator() {  
     let username:any;
@@ -12,12 +19,21 @@ export async function sfdxorgcreator() {
     let jobName:any;
     let jobToken:any;
     let REQ_INC = "ada";
-//Read user previously stored data ----------------------------------
-const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', 'utf8');
-       jsonbeforeData = JSON.parse(beforedata);
+//Read user previously stored data ---------------------------------
+
+// const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/CQ-scratch-org-creator/src/json/awt.json', 'utf8');
+//        jsonbeforeData = JSON.parse(beforedata);
        
        //user input data ---------------------------------------------------
        //check for build with params;
+       let dirPath:any;
+       if (fs.existsSync(`${__dirname}/cqconfig`)) {
+        console.log('Directory exists!');
+         dirPath = `${__dirname}/cqconfig`;
+         console.log(dirPath);
+    } else {
+       dirPath = path.join(__dirname, '/cqconfig');
+      fs.mkdirSync(dirPath); }  
        let build:any = [{
         label:"Build With Params",
         description:"Build With Params",
@@ -138,7 +154,7 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
         const stringify = JSON.stringify(newData);
     
       //  write new data to .json file; ---------------------------------------        
-        await fs.writeFile('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', stringify, (err: any) => {
+        await fs.writeFile(`${dirPath}/cq.json`, stringify, (err: any) => {
             // error checking
             if(err) {throw err;};        
             console.log("New data added");
@@ -207,7 +223,7 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
         const stringify = JSON.stringify(newData);
     
       //  write new data to .json file; ---------------------------------------        
-        await fs.writeFile('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', stringify, (err: any) => {
+        await fs.writeFile(`${dirPath}/cq.json`, stringify, (err: any) => {
             // error checking
             if(err) {throw err;};        
             console.log("New data added");
@@ -224,7 +240,7 @@ let sfjobNamejson:any;
 let afterdata:any;
 
         setTimeout(function(){
-         afterdata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/sfdxextension/src/json/awt.json', 'utf8');
+         afterdata =  fs.readFileSync(`${dirPath}/cq.json`, 'utf8');
          jsonafterData = JSON.parse(afterdata);
          console.log(jsonafterData);
          //Get data from json file ------------------------------------
@@ -256,12 +272,13 @@ let afterdata:any;
                                                   
                          "REQ_INC": `${REQ_INC}`,token:`${jobtoken}`, }, function(err:any, data:any){
                          
-                           if(err) {  console.log(err);vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");}
+                           if(err) {  
+                            vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");
+                            console.log(err);
+                          }
                            else{
                             console.log(data);
-                            vscode.window.showInformationMessage(`Your Build ${jobname} Has  Triggered Succesfully`);
-
-
+                            vscode.window.showInformationMessage("Your Build  Has  Triggered Succesfully");
                            }
                          
                          
@@ -269,11 +286,13 @@ let afterdata:any;
                     }else{
                         console.log("jenkins normal build");
                         jenkins.build(`${jobname}`, {token:`${jobtoken}`}, function(err:any, data:any) {
-                            if (err){console.log(err);vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input"); }
+                            if(err){
+                              vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");
+                              console.log(err);
+                            }
                             else{
-                                vscode.window.showInformationMessage(`Your Build  Has Triggered succesfully`);
+                                vscode.window.showInformationMessage("Your Build  Has Triggered succesfully");
                                 console.log(`Your Build ${jobname} has run succesfully`);
-                                console.log(data);
                             }
                           });  
                     }

@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-// import { build } from './build';
 import { sfdxorgcreator } from './auth';
 
 export function activate(context: vscode.ExtensionContext) {
