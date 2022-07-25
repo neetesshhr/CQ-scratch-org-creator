@@ -37,22 +37,16 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
       //if Build with params 
 
       if(buildType.label === "Build With Params" ){
-        let user:any = await vscode.window.showInputBox({
+        let username:any = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
-            placeHolder: 'Plese!! Enter Your username',            // validateInput: (text: string): string | undefined => {
-            //     if (!text) {
-            //         return 'Enter username';
-            //     } else {
-            //         return undefined;
-            //     }
-            // }
+            placeHolder: 'Plese!! Enter Your username',   
+            validateInput: (input: string): string | undefined=> {
+                if (input.trim().length === 0) {
+                    return 'Enter Your Password';
+                }
+            }       
+            
                      });
-          console.log(user);
-
-          if(user === undefined){
-           return  username === "adarsha";
-          }
-          
 
 
     //password (auth-token) ---------------------------------------------
