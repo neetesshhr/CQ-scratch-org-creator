@@ -7,8 +7,6 @@ export async function sfdxorgcreator() {
     let password:any;
     let imageName:any;
     let imageTag:any;
-    let environment:any;
-    let isWorking:any;
     let jsonafterData:any;
     let jsonbeforeData:any;
     let jobName:any;
@@ -29,9 +27,10 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
         description:"Normal Buid",
       }];
       const buildType:string | any = await vscode.window.showQuickPick(
-        build,{
-            matchOnDetail:true,            
-      }
+        build,
+        {
+            matchOnDetail:true, 
+      },
       );
       console.log(buildType);
       //if Build with params 
@@ -47,8 +46,6 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
             }       
             
                      });
-
-
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
             placeHolder: 'Plese!! Enter Your password',
@@ -87,8 +84,6 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
             }
                      });
           console.log(jobToken);
-
-    
           imageName = await vscode.window.showInputBox({
             prompt:'Image Name',
             placeHolder: 'Image Name',
@@ -101,17 +96,28 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
                      });
           console.log(imageTag);
 
-          environment = await vscode.window.showInputBox({
-            prompt:'Environment',
-            placeHolder: 'Environment',
-                     });
-          console.log(environment);
+          let envals:any = [{
+            label:"dev",
+            description:"Development",
+          },
+          {
+            label:"prod",
+            description:"NProductionrmal Buid",
+          },
+          {
+            label:"uat",
+            description:"UAT",
+          },
+        ];
 
-          isWorking = await vscode.window.showInputBox({
-            prompt:'isWorking : true ? false',
-            placeHolder: 'isWorking : true ? false',
-                     });
-          console.log(isWorking);
+        const environ:string | any = await vscode.window.showQuickPick(
+          envals,
+          {
+              matchOnDetail:true, 
+        },
+        );
+
+         
 
           const newData = {
             sfUsername: username,
@@ -120,8 +126,7 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
             sfjobToken:jobToken,
             sfImageName:imageName,
             sfImageTag:imageTag,
-            sfEnvironment:environment,
-            sfIsWorking:isWorking
+            sfEnvironment:environ,
         } ;
         const stringify = JSON.stringify(newData);
     
@@ -208,7 +213,6 @@ let sfImageNamejson:any;
 let sfImageTagjson:any;
 let sfjobtokenjson:any;
 let sfEnvironmentjson:any;
-let sfIsWorkingjson:any;
 let sfjobNamejson:any;
 let afterdata:any;
 
@@ -224,15 +228,14 @@ let afterdata:any;
          sfImageNamejson = jsonafterData.sfImageName;
          sfImageTagjson = jsonafterData.sfImageTag;
          sfEnvironmentjson = jsonafterData.sfEnvironment;
-         sfIsWorkingjson = jsonafterData.sfIsWorking;
          console.log(sfImageTagjson);
-         setTimeout(function() { jenkinsbuild(sfUsernamejson,sfPasswordsjson,sfjobNamejson,sfjobtokenjson,sfImageNamejson,sfImageTagjson,sfEnvironmentjson,sfIsWorkingjson); }, 1000);
+         setTimeout(function() { jenkinsbuild(sfUsernamejson,sfPasswordsjson,sfjobNamejson,sfjobtokenjson,sfImageNamejson,sfImageTagjson,sfEnvironmentjson); }, 1000);
 
         },1000);
 
         var jenkinsapi = require('jenkins-api');
 
-        function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,sfImageNamejson:any,sfImageTagjson:any,sfEnvironmentjson:any,sfIsWorkingjson:any){
+        function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,sfImageNamejson:any,sfImageTagjson:any,sfEnvironmentjson:any){
             var jenkins = jenkinsapi.init(`http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);                    
                     //specifying particular job name and its token
 
@@ -243,14 +246,17 @@ let afterdata:any;
                          "IMAGE_TAG": `${sfImageTagjson}`,
                          
                          "ENVIROMENT": `${sfEnvironmentjson}`,
-                         
-                         "isWorking": `${sfIsWorkingjson}`,
-                         
+                                                  
                          "REQ_INC": `${REQ_INC}`,token:`${jobtoken}`, }, function(err:any, data:any){
                          
                            if(err) {  console.log(err);vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");}
+                           else{
+                            console.log(data);
+                            vscode.window.showWarningMessage("Your Build Has  Triggered Succesfully");
+
+
+                           }
                          
-                           console.log(data);
                          
                          });
                     }else{
@@ -258,7 +264,7 @@ let afterdata:any;
                         jenkins.build(`${jobname}`, {token:`${jobtoken}`}, function(err:any, data:any) {
                             if (err){console.log(err);vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input"); }
                             else{
-                                vscode.window.showInformationMessage(`Your Build  has run succesfully`);
+                                vscode.window.showInformationMessage(`Your Build  Has Triggered succesfully`);
                                 console.log(`Your Build ${jobname} has run succesfully`);
                                 console.log(data);
                             }
