@@ -133,7 +133,7 @@ export async function sfdxorgcreator() {
           },
         ];
 
-        const environ:string | any = await vscode.window.showQuickPick(
+        let environ:string | any = await vscode.window.showQuickPick(
           envals,
           {
               matchOnDetail:true, 
@@ -252,7 +252,7 @@ let afterdata:any;
         var jenkinsapi = require('jenkins-api');
 
         function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,sfImageNamejson:any,sfImageTagjson:any,sfEnvironmentjson:any){
-            var jenkins = jenkinsapi.init(`http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);                    
+            var jenkins = jenkinsapi.init(`https://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);                    
                     //specifying particular job name and its token
 
                     if(buildType.label === "Build With Params" ){
