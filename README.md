@@ -1,11 +1,17 @@
+
+# sfdxextension READM
 # CQ Scratch Org Creator 
 👋 A simple tool to create salesforce scratch orgs. Using 👀[![Jenkins LTS Release](https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.jenkins.io%2Fchangelog-stable%2Fbadge.json)](https://www.jenkins.io/changelog-stable) and 👀[![Salesforce cli](https://img.shields.io/badge/salesforcecli-LTS-green)](https://developer.salesforce.com/tools/sfdxcli) and is made by 👀[![CQ](https://img.shields.io/badge/compliance-quest-blue)](https://www.compliancequest.com/) 
 
+
+This is the README for your extension "sfdxextension". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
 The extension allows you to trigger the remote jenkins build job to create a scratch org using your company credentials.
 
+
+\!\[feature X\]\(images/feature-x.png\)
 
 
 [![CQ Scratch Org Creator](images/cqimg.png)](https://www.compliancequest.com/)

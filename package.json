@@ -1,23 +1,24 @@
 {
   "name": "cq-scratch-org-creator",
   "displayName": "CQ Scratch Org Creator",
-  "description": "Create scratch org on jenkins ",
+  "description": "CQ scratch org creator in jenkins",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.69.0"
+    "vscode": "^1.54.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:cq-scratch-org-creator.helloWorld"
+    "onCommand:cq-scratch-org-creator.buildtrigger"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "cq-scratch-org-creator.helloWorld",
-        "title": "Hello World"
+        "command": "cq-scratch-org-creator.buildtrigger",
+        "title": "Create Scratch Org from jenkins",
+        "category": "CQ"
       }
     ]
   },
@@ -33,17 +34,16 @@
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "16.x",
-    "@types/vscode": "^1.69.0",
+    "@types/vscode": "^1.54.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "@vscode/test-electron": "^2.1.5",
+    "axios": "^0.27.2",
     "eslint": "^8.18.0",
     "glob": "^8.0.3",
+    "jenkins-api": "^0.3.1",
     "mocha": "^10.0.0",
-    "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "axios": "^0.27.2",
-    "jenkins-api": "^0.3.1"
+    "typescript": "^4.7.4",
+    "user-agent-data-types": "^0.3.0"
   }
 }
