@@ -1,7 +1,7 @@
 {
-  "name": "sfdxextension",
-  "displayName": "sfdxExtension",
-  "description": "sfdx extension by cq : ",
+  "name": "cq-scratch-org-creator",
+  "displayName": "CQ Scratch Org Creator",
+  "description": "CQ scratch org creator in jenkins",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.54.0"
@@ -10,14 +10,15 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:sfdxextension.helloWorld"
+    "onCommand:cq-scratch-org-creator.buildtrigger"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "sfdxextension.helloWorld",
-        "title": "Hello World"
+        "command": "cq-scratch-org-creator.buildtrigger",
+        "title": "Create Scratch Org from jenkins",
+        "category": "CQ"
       }
     ]
   },
@@ -40,6 +41,7 @@
     "axios": "^0.27.2",
     "eslint": "^8.18.0",
     "glob": "^8.0.3",
+    "jenkins-api": "^0.3.1",
     "mocha": "^10.0.0",
     "typescript": "^4.7.4"
   }

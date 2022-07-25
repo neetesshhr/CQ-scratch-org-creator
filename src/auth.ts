@@ -41,7 +41,7 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
             placeHolder: 'Plese!! Enter Your username',   
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
-                    return 'Enter Your Password';
+                    return 'Enter Your username';
                 }
             }       
             
@@ -87,6 +87,13 @@ const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExten
           imageName = await vscode.window.showInputBox({
             prompt:'Image Name',
             placeHolder: 'Image Name',
+            validateInput: (text: string): string | undefined => {
+              if (!text ) {
+                  return 'Enter Your Image Name';
+              } else {
+                  return undefined;
+              }
+          }
                      });
           console.log(imageName);
     
@@ -252,7 +259,7 @@ let afterdata:any;
                            if(err) {  console.log(err);vscode.window.showWarningMessage("Your Build Has Failed : Try Again or Check The Input");}
                            else{
                             console.log(data);
-                            vscode.window.showWarningMessage("Your Build Has  Triggered Succesfully");
+                            vscode.window.showInformationMessage(`Your Build ${jobname} Has  Triggered Succesfully`);
 
 
                            }
