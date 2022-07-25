@@ -19,6 +19,7 @@ export async function sfdxorgcreator() {
     let jobName:any;
     let jobToken:any;
     let REQ_INC = "ada";
+    vscode.window.showInformationMessage('Welcome to CQ Scratch Org Creator now enter the details');
 //Read user previously stored data ---------------------------------
 
 // const beforedata =  fs.readFileSync('/home/adarsha/Documents/extension/sfdxExtension/CQ-scratch-org-creator/src/json/awt.json', 'utf8');
