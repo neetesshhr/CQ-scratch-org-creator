@@ -3,7 +3,7 @@
   "displayName": "CQ Scratch Org Creator",
   "description": "CQ scratch org creator in jenkins",
   "publisher": "CQDevops",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "https://github.com/neetesshhr/CQ-scratch-org-creator",
   "engines": {
     "vscode": "^1.54.0"
