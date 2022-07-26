@@ -26,15 +26,17 @@ export async function sfdxorgcreator() {
 //        jsonbeforeData = JSON.parse(beforedata);
        
        //user input data ---------------------------------------------------
-       //check for build with params;
-       let dirPath:any;
-       if (fs.existsSync(`${__dirname}/cqconfig`)) {
-        console.log('Directory exists!');
-         dirPath = `${__dirname}/cqconfig`;
-         console.log(dirPath);
-    } else {
-       dirPath = path.join(__dirname, '/cqconfig');
-      fs.mkdirSync(dirPath); }  
+    //check for build with params;
+       let dirPath = `${__dirname}/cqconfig`;
+       if (!fs.existsSync(dirPath)) {
+        console.log('Directory does not exists!');
+       
+      
+       fs.mkdirSync(dirPath, { recursive: true });
+      
+    }
+    console.log(`checking... ${dirPath}`);
+
        let build:any = [{
         label:"Build With Params",
         description:"Build With Params",
@@ -55,7 +57,7 @@ export async function sfdxorgcreator() {
       if(buildType.label === "Build With Params" ){
         let username:any = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
-            placeHolder: 'Plese!! Enter Your username',   
+            placeHolder: 'Please!! Enter Your username',   
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
                     return 'Enter Your username';
@@ -65,7 +67,7 @@ export async function sfdxorgcreator() {
                      });
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
-            placeHolder: 'Plese!! Enter Your password',
+            placeHolder: 'Please!! Enter Your password',
             prompt:'Enter Your Password',
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
@@ -165,7 +167,7 @@ export async function sfdxorgcreator() {
       else{
         username = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
-            placeHolder: 'Plese!! Enter Your username',
+            placeHolder: 'Please!! Enter Your username',
             validateInput: (text: string): string | undefined => {
                 if (!text) {
                     return 'Enter username';
@@ -176,7 +178,7 @@ export async function sfdxorgcreator() {
                      });
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
-            placeHolder: 'Plese!! Enter Your password',
+            placeHolder: 'Please!! Enter Your password',
             prompt:'Enter Your Password',
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
@@ -253,9 +255,9 @@ let afterdata:any;
         var jenkinsapi = require('jenkins-api');
 
         function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:number | string,jobname:any,jobtoken:any,sfImageNamejson:any,sfImageTagjson:any,sfEnvironmentjson:any){
-            var jenkins = jenkinsapi.init(`https://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);                    
+            var jenkins = jenkinsapi.init(`http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`);                    
                     //specifying particular job name and its token
-
+                  console.log("logging is paams build",sfEnvironmentjson);
                     if(buildType.label === "Build With Params" ){
                         console.log("jenkins param build");
                         jenkins.build_with_params(`${jobname}`,{depth: 1, "IMAGE_NAME": `${sfImageNamejson}`,
@@ -264,15 +266,14 @@ let afterdata:any;
                          
                          "ENVIROMENT": `${sfEnvironmentjson}`,
                                                   
-                         "REQ_INC": `${REQ_INC}`,token:`${jobtoken}`, }, function(err:any, data:any){
+                         }, function(err:any, data:any){
                          
                            if(err) {  
                             vscode.window.showWarningMessage(`Your Build ${jobName} Has Failed : Try Again or Check The Input`);
                           }
-                           else{
+                     
                             vscode.window.showInformationMessage(`Your Build ${jobName} Has  Triggered Succesfully`);
-                           }
-                         
+                          console.log(data);
                          
                          });
                     }else{
@@ -281,13 +282,13 @@ let afterdata:any;
                             if(err){
                               vscode.window.showWarningMessage(`Your Build ${jobName} Has Failed with status 400: Try Again or Check The Input`);
                             }
-                            else{
+                       
                                 vscode.window.showInformationMessage(`Your Build ${jobname} Has Triggered succesfully with status 201`);
                                 
-                            }
+                           
                           });  
                     }
                                                      
         }
-    }
-        
+  
+}
