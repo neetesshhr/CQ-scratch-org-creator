@@ -19,7 +19,7 @@ export async function sfdxorgcreator() {
     let REQ_INC = "ada";
 
 
-    let sfUsernamejson:any;
+let sfUsernamejson:any;
 let sfPasswordsjson:any;
 let sfImageNamejson:any;
 let sfImageTagjson:any;
@@ -177,32 +177,23 @@ let afterdata:any;
          sfImageNamejson = jsonafterData.sfImageName;
          sfImageTagjson = jsonafterData.sfImageTag;
          sfEnvironmentjson = jsonafterData.sfEnvironment;
-         console.log(sfImageTagjson);
-         console.log("reading data");
-         console.log(sfUsernamejson);
-         console.log(sfPasswordsjson);
-         console.log(sfjobNamejson);
-         console.log(sfjobtokenjson);
+    
          setTimeout(function () { jenkinsbuild(sfUsernamejson, sfPasswordsjson, sfjobNamejson, sfjobtokenjson, sfImageNamejson, sfImageTagjson, sfEnvironmentjson); }, 1000);
         }, 2000);
     
         function jenkinsbuild(sfUsernamejson:any, sfPasswordsjson:any, jobname:any, jobtoken:any, sfImageNamejson:any, sfImageTagjson:any, sfEnvironmentjson:any){
           var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
-
-
-            console.log(jenkins);   
-            jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  { "IMAGE_NAME":`${sfImageNamejson}`,"IMAGE_TAG":`${sfImageTagjson}`,"ENVIRONMENT":`${sfEnvironmentjson}`}}, function(err:any) {
+           jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  { "IMAGE_NAME":`${sfImageNamejson}`,"IMAGE_TAG":`${sfImageTagjson}`,"ENVIRONMENT":`${sfEnvironmentjson}`}}, function(err:any) {
               if (err) {
-                vscode.window.showErrorMessage(`Jenkis Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
+                vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
               }
-              vscode.window.showInformationMessage(`Jenkis Job ${jobname} Has Triggered Succesfully`);
+              vscode.window.showInformationMessage(`Jenkins Job ${jobname} Has Triggered Succesfully`);
             });           
                     //specifying particular job name and its token
                     }
       }
       else{
-        console.log("inside normal buid");
-        console.log(buildType.label);
+    
         username = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
             placeHolder: 'Please!! Enter Your username',
@@ -267,7 +258,6 @@ let afterdata:any;
         setTimeout(function(){
          
          afterdata =  fs.readFileSync(`${dirPath}/cq.json`, {encoding:'utf8', flag:'r'});
-         console.log(afterdata);
          jsonafterData = JSON.parse(afterdata);
          //Get data from json file ------------------------------------
          sfUsernamejson = jsonafterData.sfUsername;
@@ -284,9 +274,9 @@ let afterdata:any;
           var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
           jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`}, function(err:any) {
             if (err) {
-              vscode.window.showErrorMessage(`Jenkis Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
+              vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
             }
-            vscode.window.showInformationMessage(`Jenkis Job ${jobname} Has Triggered Succesfully`);
+            vscode.window.showInformationMessage(`Jenkins Job ${jobname} Has Triggered Succesfully`);
           });           
                   }          
                     //specifying particular job name and its token                      
