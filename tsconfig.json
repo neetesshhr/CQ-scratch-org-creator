@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"types": [
-			"./node_modules/user-agent-data-types"
+			"./node_modules/user-agent-data-types", "jest", "mocha"
 		],
 		"module": "commonjs",
 		"target": "ES2020",
