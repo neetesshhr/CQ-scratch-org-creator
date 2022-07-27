@@ -18,6 +18,7 @@ export async function sfdxorgcreator() {
     let jobToken:any;
     let REQ_INC = "ada";
 
+
     let sfUsernamejson:any;
 let sfPasswordsjson:any;
 let sfImageNamejson:any;
@@ -26,13 +27,24 @@ let sfjobtokenjson:any;
 let sfjobNamejson:any;
 let sfEnvironmentjson:any;
 let afterdata:any;
-
        let dirPath:any;
        if (fs.existsSync(`${__dirname}/cqconfig`)) {
          dirPath = `${__dirname}/cqconfig`;
     } else {
        dirPath = path.join(__dirname, '/cqconfig');
       fs.mkdirSync(dirPath); }  
+
+    //check for build with params;
+        dirPath = `${__dirname}/cqconfig`;
+       if (!fs.existsSync(dirPath)) {
+        console.log('Directory does not exists!');
+       
+      
+       fs.mkdirSync(dirPath, { recursive: true });
+      
+    }
+    console.log(`checking... ${dirPath}`);
+
        let build:any = [{
         label:"Build With Params",
         description:"Build With Params",
@@ -54,7 +66,7 @@ let afterdata:any;
    
         let username:any = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
-            placeHolder: 'Plese!! Enter Your username',   
+            placeHolder: 'Please!! Enter Your username',   
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
                     return 'Enter Your username';
@@ -64,7 +76,7 @@ let afterdata:any;
                      });
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
-            placeHolder: 'Plese!! Enter Your password',
+            placeHolder: 'Please!! Enter Your password',
             prompt:'Enter Your Password',
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
@@ -193,7 +205,7 @@ let afterdata:any;
         console.log(buildType.label);
         username = await vscode.window.showInputBox({
             prompt:'Enter Your UserName',
-            placeHolder: 'Plese!! Enter Your username',
+            placeHolder: 'Please!! Enter Your username',
             validateInput: (text: string): string | undefined => {
                 if (!text) {
                     return 'Enter username';
@@ -204,7 +216,7 @@ let afterdata:any;
                      });
     //password (auth-token) ---------------------------------------------
           password = await vscode.window.showInputBox({
-            placeHolder: 'Plese!! Enter Your password',
+            placeHolder: 'Please!! Enter Your password',
             prompt:'Enter Your Password',
             validateInput: (input: string): string | undefined=> {
                 if (input.trim().length === 0) {
@@ -281,9 +293,7 @@ let afterdata:any;
         }
       }
 //---------------------------------------------------------------------------------
-
-
-  
+//--------------------------End------------------------------------
 
 
 

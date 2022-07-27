@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 All these TLA+ examples are licensed under the MIT License.
 
 > Copyright (c) 2016: The TLA+ project and other contributors:
@@ -22,3 +23,6 @@ All these TLA+ examples are licensed under the MIT License.
 > LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 > OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 > WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+=======
+# This license file
+>>>>>>> 8af0bc984ce976b8fea257e3ba4768e0e46088a4
