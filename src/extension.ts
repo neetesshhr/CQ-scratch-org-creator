@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 import { sfdxorgcreator } from './auth';
+// import { nitesh } from './nitesh';
+
 
 export function activate(context: vscode.ExtensionContext) {
 	
@@ -10,6 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 		
 		const sfdx = sfdxorgcreator();
+				// const ada = nitesh();
 
 	});
 
