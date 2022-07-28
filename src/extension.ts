@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { sfdxorgcreator } from './auth';
 // import { nitesh } from './nitesh';
-
+import {executes} from './execute';
 
 export function activate(context: vscode.ExtensionContext) {
 	
@@ -11,8 +11,10 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('cq-scratch-org-creator.buildtrigger', () => {
 	
 		
-		const sfdx = sfdxorgcreator();
+		// const sfdx = sfdxorgcreator();
+
 				// const ada = nitesh();
+				const exec = executes();
 
 	});
 
