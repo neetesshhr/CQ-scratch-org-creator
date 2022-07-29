@@ -16,14 +16,7 @@
 				"kind": "build",
 				"isDefault": true
 			}
-		},
-		{
-			"type": "npm",
-			"script": "install",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
 		}
+		
 	]
 }

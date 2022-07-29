@@ -1,7 +1,4 @@
-import { rejects } from 'assert';
-import { resolve } from 'path';
-import * as vscode from 'vscode';
-import * as data from "./json/awt.json";
+
 const {exec} = require("child_process");
 const path = require('path');
 const os = require('os');
@@ -20,7 +17,7 @@ export async function sfdxorgcreator() {
     let jobName:any;
     let jobToken:any;
 
-
+  
     let sfUsernamejson:any;
     let sfPasswordsjson:any;
     let sfSqxbnamejson:any;
@@ -77,6 +74,9 @@ export async function sfdxorgcreator() {
               if(credentials.label === "Use Old Credentials" ){
                 username =jsonbeforeData.sfUsername;
                 password =jsonbeforeData.sfPassword;
+                jobName = jsonbeforeData.sfjobName;
+                jobToken = jsonbeforeData.sfjobToken;
+                sqxbname = jsonbeforeData.sfSqxbname;               
                
            }else{
              username = await vscode.window.showInputBox({
@@ -99,47 +99,51 @@ export async function sfdxorgcreator() {
               }
                        });
 
-           }
-           jobName = await vscode.window.showInputBox({
-            prompt:'Enter Job Name',
-            placeHolder: 'Enter Job Name',
-            validateInput: (text: string): string | undefined => {
-                if (!text ) {
-                    return 'Enter your jobname';
-                } else {
-                    return undefined;
-                }
-            }
 
-                     });
-    //jenkins job name
-          jobToken = await vscode.window.showInputBox({
-            prompt:'Enter Job token',
-            placeHolder: 'Enter Job token',
-            validateInput: (text: string): string | undefined => {
-                if (!text ) {
-                    return 'Enter your jobtoken';
-                } else {
-                    return undefined;
-                }
-            }
-          });
-          sqxbname = await vscode.window.showInputBox({
-            prompt:'Enter Your Sqx Branch name',
-            placeHolder: 'Enter Your Sqx Branch name',
-            validateInput: (text: string): string | undefined => {
-                if (!text ) {
-                    return 'Enter your sqx branch name';
-                } else {
-                    return undefined;
-                }
-            }
-          });
+                       jobName = await vscode.window.showInputBox({
+                        prompt:'Enter Job Name',
+                        placeHolder: 'Enter Job Name',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your jobname';
+                            } else {
+                                return undefined;
+                            }
+                        }
+            
+                                 });
+                //jenkins job name
+                      jobToken = await vscode.window.showInputBox({
+                        prompt:'Enter Job token',
+                        placeHolder: 'Enter Job token',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your jobtoken';
+                            } else {
+                                return undefined;
+                            }
+                        }
+                      });
+                      sqxbname = await vscode.window.showInputBox({
+                        prompt:'Enter Your Sqx Branch name',
+                        placeHolder: 'Enter Your Sqx Branch name',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your sqx branch name';
+                            } else {
+                                return undefined;
+                            }
+                        }
+                      });
+
+           }
+    
+         
           nooforgs = await vscode.window.showInputBox({
             prompt:'Enter Numbers of Orgs what you want to create',
             placeHolder: 'Enter Numbers of Orgs what you want to create',
             validateInput: (text: string): string | undefined => {
-                if (!text ) {
+                if (/[^0-9]/.test(text) ) {
                     return 'Enter Number of orgs';
                 } else {
                     return undefined;
@@ -161,8 +165,8 @@ export async function sfdxorgcreator() {
             prompt:'Enter Timeout for Org creation',
             placeHolder: 'Enter Timeout for Org creation',
             validateInput: (text: string): string | undefined => {
-                if (!text ) {
-                    return 'Enter Timeout for Org creation';
+              if (/[^0-9]/.test(text) ) {
+                return 'Enter Timeout for Org creation';
                 } else {
                     return undefined;
                 }
@@ -229,7 +233,7 @@ export async function sfdxorgcreator() {
             function jenkinsbuild(sfUsernamejson:any, 
               sfPasswordsjson:any,
                jobname:any,
-                jobtoken:any,
+               jobtoken:any,
                sfSqxbnamejson:any,
                sfNooforgsjson:any,
                sfUibnamejson:any,
@@ -295,31 +299,33 @@ export async function sfdxorgcreator() {
             }
                      });
 
-         }
-         jobName = await vscode.window.showInputBox({
-          prompt:'Enter Job Name',
-          placeHolder: 'Enter Job Name',
-          validateInput: (text: string): string | undefined => {
-              if (!text ) {
-                  return 'Enter your jobname';
-              } else {
-                  return undefined;
-              }
-          }
+                     jobName = await vscode.window.showInputBox({
+                      prompt:'Enter Job Name',
+                      placeHolder: 'Enter Job Name',
+                      validateInput: (text: string): string | undefined => {
+                          if (!text ) {
+                              return 'Enter your jobname';
+                          } else {
+                              return undefined;
+                          }
+                      }
+            
+                               });
+              //jenkins job name
+                    jobToken = await vscode.window.showInputBox({
+                      prompt:'Enter Job token',
+                      placeHolder: 'Enter Job token',
+                      validateInput: (text: string): string | undefined => {
+                          if (!text ) {
+                              return 'Enter your jobtoken';
+                          } else {
+                              return undefined;
+                          }
+                      }
+                               });
 
-                   });
-  //jenkins job name
-        jobToken = await vscode.window.showInputBox({
-          prompt:'Enter Job token',
-          placeHolder: 'Enter Job token',
-          validateInput: (text: string): string | undefined => {
-              if (!text ) {
-                  return 'Enter your jobtoken';
-              } else {
-                  return undefined;
-              }
-          }
-                   });
+         }
+    
 
 
 
@@ -448,8 +454,8 @@ export async function sfdxorgcreator() {
                     prompt:'Enter Number of Orgs',
                     placeHolder: 'Enter Number of Orgs',
                     validateInput: (text: string): string | undefined => {
-                        if (!text ) {
-                            return 'Enter your nooforgs';
+                      if (/[^0-9]/.test(text) ) {
+                        return 'Enter your nooforgs';
                         } else {
                             return undefined;
                         }
@@ -470,8 +476,8 @@ export async function sfdxorgcreator() {
                     prompt:'Enter Timeout for Orgs',
                     placeHolder: 'Enter Timeout for Orgs',
                     validateInput: (text: string): string | undefined => {
-                        if (!text ) {
-                            return 'Enter your timeoforg';
+                      if (/[^0-9]/.test(text) ) {
+                        return 'Enter your timeoforg';
                         } else {
                             return undefined;
                         }
