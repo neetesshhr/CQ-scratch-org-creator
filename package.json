@@ -2,7 +2,7 @@
   "name": "cq-scratch-org-creator",
   "displayName": "CQ Scratch Org Creator",
   "description": "CQ scratch org creator in jenkins",
-  "version": "1.1.9",
+  "version": "1.2.1",
   "author": "CQDevops",
   "repository": "https://github.com/neetesshhr/CQ-scratch-org-creator",
   "publisher": "CQDevops",
