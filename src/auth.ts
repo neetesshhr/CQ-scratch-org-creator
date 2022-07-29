@@ -1,7 +1,4 @@
-import { rejects } from 'assert';
-import { resolve } from 'path';
-import * as vscode from 'vscode';
-import * as data from "./json/awt.json";
+
 const {exec} = require("child_process");
 const path = require('path');
 const os = require('os');
@@ -10,25 +7,29 @@ export async function sfdxorgcreator() {
   //--------------------------------------------------------------
     let username:any;
     let password:any;
-    let imageName:any;
-    let imageTag:any;
+    let sqxbname:any;
+    let nooforgs:any;
+    let uibname:any;
+    let timeoforg:any;
+    let devhubuname:any;
     let jsonafterData:any;
     let jsonbeforeData:any;
     let jobName:any;
     let jobToken:any;
-    let REQ_INC = "ada";
 
-
+  
     let sfUsernamejson:any;
     let sfPasswordsjson:any;
-    let sfImageNamejson:any;
-    let sfImageTagjson:any;
+    let sfSqxbnamejson:any;
+    let sfNooforgsjson:any;
+    let sfUibnamejson:any;
+    let sfTimeoforgjson:any;
+    let sfDevhubunamejson:any;
     let sfjobtokenjson:any;
     let sfjobNamejson:any;
-    let sfEnvironmentjson:any;
     let afterdata:any;
     let beforedata:any;
-    let environ:any;
+    // let environ:any;
     let credentials:any;
 
        let dirPath:any;
@@ -73,6 +74,9 @@ export async function sfdxorgcreator() {
               if(credentials.label === "Use Old Credentials" ){
                 username =jsonbeforeData.sfUsername;
                 password =jsonbeforeData.sfPassword;
+                jobName = jsonbeforeData.sfjobName;
+                jobToken = jsonbeforeData.sfjobToken;
+                sqxbname = jsonbeforeData.sfSqxbname;               
                
            }else{
              username = await vscode.window.showInputBox({
@@ -95,79 +99,101 @@ export async function sfdxorgcreator() {
               }
                        });
 
+
+                       jobName = await vscode.window.showInputBox({
+                        prompt:'Enter Job Name',
+                        placeHolder: 'Enter Job Name',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your jobname';
+                            } else {
+                                return undefined;
+                            }
+                        }
+            
+                                 });
+                //jenkins job name
+                      jobToken = await vscode.window.showInputBox({
+                        prompt:'Enter Job token',
+                        placeHolder: 'Enter Job token',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your jobtoken';
+                            } else {
+                                return undefined;
+                            }
+                        }
+                      });
+                      sqxbname = await vscode.window.showInputBox({
+                        prompt:'Enter Your Sqx Branch name',
+                        placeHolder: 'Enter Your Sqx Branch name',
+                        validateInput: (text: string): string | undefined => {
+                            if (!text ) {
+                                return 'Enter your sqx branch name';
+                            } else {
+                                return undefined;
+                            }
+                        }
+                      });
+
            }
-           jobName = await vscode.window.showInputBox({
-            prompt:'Enter Job Name',
-            placeHolder: 'Enter Job Name',
+    
+         
+          nooforgs = await vscode.window.showInputBox({
+            prompt:'Enter Numbers of Orgs what you want to create',
+            placeHolder: 'Enter Numbers of Orgs what you want to create',
             validateInput: (text: string): string | undefined => {
-                if (!text ) {
-                    return 'Enter your jobname';
+                if (/[^0-9]/.test(text) ) {
+                    return 'Enter Number of orgs';
                 } else {
                     return undefined;
                 }
             }
-
-                     });
-    //jenkins job name
-          jobToken = await vscode.window.showInputBox({
-            prompt:'Enter Job token',
-            placeHolder: 'Enter Job token',
+          });
+          uibname = await vscode.window.showInputBox({
+            prompt:'Enter Your Ui Branch name',
+            placeHolder: 'Enter Your Ui Branch name',
             validateInput: (text: string): string | undefined => {
                 if (!text ) {
-                    return 'Enter your jobtoken';
+                    return 'Enter your ui branch name';
                 } else {
                     return undefined;
                 }
             }
-                     });
-          imageName = await vscode.window.showInputBox({
-            prompt:'Image Name',
-            placeHolder: 'Image Name',
+          });
+          timeoforg = await vscode.window.showInputBox({
+            prompt:'Enter Timeout for Org creation',
+            placeHolder: 'Enter Timeout for Org creation',
             validateInput: (text: string): string | undefined => {
-              if (!text ) {
-                  return 'Enter Your Image Name';
-              } else {
-                  return undefined;
-              }
-          }
-                     });
-    
-          imageTag = await vscode.window.showInputBox({
-            prompt:'Image Tag',
-            placeHolder: 'Image Tag',
-                     });
-
-          let envals:any = [{
-            label:"dev",
-            description:"Development",
-          },
-          {
-            label:"prod",
-            description:"NProductionrmal Buid",
-          },
-          {
-            label:"uat",
-            description:"UAT",
-          },
-        ];
-
-         environ= await vscode.window.showQuickPick(
-          envals,
-          {
-              matchOnDetail:true, 
-        },
-        );
-    
-                      
+              if (/[^0-9]/.test(text) ) {
+                return 'Enter Timeout for Org creation';
+                } else {
+                    return undefined;
+                }
+            }
+          });
+          devhubuname = await vscode.window.showInputBox({
+            prompt:'Enter Your Devhub Username',
+            placeHolder: 'Enter Your Devhub Username',
+            validateInput: (text: string): string | undefined => {
+                if (!text ) {
+                    return 'Enter your devhub username';
+                } else {
+                    return undefined;
+                }
+            }
+          });
                 const newData = {
                 sfUsername: username,
                 sfPassword:password,
                 sfjobName:jobName,
                 sfjobToken:jobToken,
-                sfImageName:imageName,
-                sfImageTag:imageTag,
-                sfEnvironment:environ.label,
-            } ;
+                sfSqxbname:sqxbname,
+                sfNooforgs:nooforgs,
+                sfUibname:uibname,
+                sfTimeoforg:timeoforg,
+                sfDevhubuname:devhubuname,  
+           } ;
             const stringify = JSON.stringify(newData);
         
           //  write new data to .json file; ---------------------------------------        
@@ -187,17 +213,42 @@ export async function sfdxorgcreator() {
              sfPasswordsjson = jsonafterData.sfPassword;
              sfjobNamejson = jsonafterData.sfjobName;
              sfjobtokenjson = jsonafterData.sfjobToken;
-             sfImageNamejson = jsonafterData.sfImageName;
-             sfImageTagjson = jsonafterData.sfImageTag;
-             sfEnvironmentjson = jsonafterData.sfEnvironment;
-             setTimeout(function () { jenkinsbuild(sfUsernamejson, sfPasswordsjson, sfjobNamejson, sfjobtokenjson, sfImageNamejson, sfImageTagjson, sfEnvironmentjson); }, 1000);
+             sfSqxbnamejson = jsonafterData.sfSqxbname;
+             sfNooforgsjson = jsonafterData.sfNooforgs;
+             sfUibnamejson = jsonafterData.sfUibname;
+             sfTimeoforgjson = jsonafterData.sfTimeoforg;
+             sfDevhubunamejson = jsonafterData.sfDevhubuname;
+            
+             setTimeout(function () { jenkinsbuild(sfUsernamejson,
+               sfPasswordsjson,
+                sfjobNamejson,
+                 sfjobtokenjson,
+                 sfSqxbnamejson,
+                 sfNooforgsjson,
+                 sfUibnamejson,
+                 sfTimeoforgjson,
+                 sfDevhubunamejson ); }, 1000);
             }, 2000);
         
-            function jenkinsbuild(sfUsernamejson:any, sfPasswordsjson:any, jobname:any, jobtoken:any, sfImageNamejson:any, sfImageTagjson:any, sfEnvironmentjson:any){
-              var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
+            function jenkinsbuild(sfUsernamejson:any, 
+              sfPasswordsjson:any,
+               jobname:any,
+               jobtoken:any,
+               sfSqxbnamejson:any,
+               sfNooforgsjson:any,
+               sfUibnamejson:any,
+               sfTimeoforgjson:any,
+               sfDevhubunamejson:any){
+              var jenkins = require('jenkins')({ baseUrl: `https://${sfUsernamejson}:${sfPasswordsjson}@ci-cd.compliancequest.com`, crumbIssuer: true });
     
     
-                jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  { "IMAGE_NAME":`${sfImageNamejson}`,"IMAGE_TAG":`${sfImageTagjson}`,"ENVIRONMENT":`${sfEnvironmentjson}`}}, function(err:any) {
+                jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  {
+                   "sqxBranchName": `${sfSqxbnamejson}`, 
+                   "numberOfOrgs": `${sfNooforgsjson}`, 
+                   "uiBranchName": `${sfUibnamejson}`, 
+                   "durationOfOrg":`${sfTimeoforgjson}`,
+                    "devHubUsername": `${sfDevhubunamejson}`}},
+                     function(err:any) {
                   if (err) {
                     vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
                   }else{              vscode.window.showInformationMessage(`Jenkins Job ${jobname} Has Triggered Succesfully`);
@@ -248,31 +299,33 @@ export async function sfdxorgcreator() {
             }
                      });
 
-         }
-         jobName = await vscode.window.showInputBox({
-          prompt:'Enter Job Name',
-          placeHolder: 'Enter Job Name',
-          validateInput: (text: string): string | undefined => {
-              if (!text ) {
-                  return 'Enter your jobname';
-              } else {
-                  return undefined;
-              }
-          }
+                     jobName = await vscode.window.showInputBox({
+                      prompt:'Enter Job Name',
+                      placeHolder: 'Enter Job Name',
+                      validateInput: (text: string): string | undefined => {
+                          if (!text ) {
+                              return 'Enter your jobname';
+                          } else {
+                              return undefined;
+                          }
+                      }
+            
+                               });
+              //jenkins job name
+                    jobToken = await vscode.window.showInputBox({
+                      prompt:'Enter Job token',
+                      placeHolder: 'Enter Job token',
+                      validateInput: (text: string): string | undefined => {
+                          if (!text ) {
+                              return 'Enter your jobtoken';
+                          } else {
+                              return undefined;
+                          }
+                      }
+                               });
 
-                   });
-  //jenkins job name
-        jobToken = await vscode.window.showInputBox({
-          prompt:'Enter Job token',
-          placeHolder: 'Enter Job token',
-          validateInput: (text: string): string | undefined => {
-              if (!text ) {
-                  return 'Enter your jobtoken';
-              } else {
-                  return undefined;
-              }
-          }
-                   });
+         }
+    
 
 
 
@@ -308,7 +361,7 @@ export async function sfdxorgcreator() {
         
                 function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:any,jobname:any,jobtoken:any){
         
-                  var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
+                  var jenkins = require('jenkins')({ baseUrl: `https://${sfUsernamejson}:${sfPasswordsjson}@ci-cd.compliancequest.com`, crumbIssuer: true });
                   jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`}, function(err:any) {
                     if (err) {
                       vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
@@ -383,54 +436,76 @@ export async function sfdxorgcreator() {
                             return undefined;
                         }
                     }
-                             });
-                  imageName = await vscode.window.showInputBox({
-                    prompt:'Image Name',
-                    placeHolder: 'Image Name',
+                 });
+
+                 sqxbname = await vscode.window.showInputBox({
+                    prompt:'Enter Sqx Branch Name',
+                    placeHolder: 'Enter Sqx Branch Name',
                     validateInput: (text: string): string | undefined => {
-                      if (!text ) {
-                          return 'Enter Your Image Name';
-                      } else {
-                          return undefined;
-                      }
-                  }
-                             });
-            
-                  imageTag = await vscode.window.showInputBox({
-                    prompt:'Image Tag',
-                    placeHolder: 'Image Tag',
-                             });
-        
-                  let envals:any = [{
-                    label:"dev",
-                    description:"Development",
-                  },
-                  {
-                    label:"prod",
-                    description:"NProductionrmal Buid",
-                  },
-                  {
-                    label:"uat",
-                    description:"UAT",
-                  },
-                ];
-        
-                 environ= await vscode.window.showQuickPick(
-                  envals,
-                  {
-                      matchOnDetail:true, 
-                },
-                );
-            
+                        if (!text ) {
+                            return 'Enter your sqxbname';
+                        } else {
+                            return undefined;
+                        }
+                    }
+                 });
+                 
+                 nooforgs = await vscode.window.showInputBox({
+                    prompt:'Enter Number of Orgs',
+                    placeHolder: 'Enter Number of Orgs',
+                    validateInput: (text: string): string | undefined => {
+                      if (/[^0-9]/.test(text) ) {
+                        return 'Enter your nooforgs';
+                        } else {
+                            return undefined;
+                        }
+                    }
+                 });
+                 uibname = await vscode.window.showInputBox({
+                    prompt:'Enter Uib Branch Name',
+                    placeHolder: 'Enter Uib Branch Name',
+                    validateInput: (text: string): string | undefined => {
+                        if (!text ) {
+                            return 'Enter your uibname';
+                        } else {
+                            return undefined;
+                        }
+                    }
+                  });
+                  timeoforg = await vscode.window.showInputBox({
+                    prompt:'Enter Timeout for Orgs',
+                    placeHolder: 'Enter Timeout for Orgs',
+                    validateInput: (text: string): string | undefined => {
+                      if (/[^0-9]/.test(text) ) {
+                        return 'Enter your timeoforg';
+                        } else {
+                            return undefined;
+                        }
+                    }
+                  });
+                  devhubuname = await vscode.window.showInputBox({
+                    prompt:'Enter Devhub Username',
+                    placeHolder: 'Enter Devhub Username',
+                    validateInput: (text: string): string | undefined => {
+                        if (!text ) {
+                            return 'Enter your devhubuname';
+                        } else {
+                            return undefined;
+                        }
+                    }
+                  });
+                
                               
                         const newData = {
                         sfUsername: username,
                         sfPassword:password,
                         sfjobName:jobName,
                         sfjobToken:jobToken,
-                        sfImageName:imageName,
-                        sfImageTag:imageTag,
-                        sfEnvironment:environ.label,
+                        sfSqxbname:sqxbname,
+                        sfNooforgs:nooforgs,
+                        sfUibname:uibname,
+                        sfTimeoforg:timeoforg,
+                        sfDevhubuname:devhubuname,
                     } ;
                     const stringify = JSON.stringify(newData);
                 
@@ -451,17 +526,41 @@ export async function sfdxorgcreator() {
                      sfPasswordsjson = jsonafterData.sfPassword;
                      sfjobNamejson = jsonafterData.sfjobName;
                      sfjobtokenjson = jsonafterData.sfjobToken;
-                     sfImageNamejson = jsonafterData.sfImageName;
-                     sfImageTagjson = jsonafterData.sfImageTag;
-                     sfEnvironmentjson = jsonafterData.sfEnvironment;
-                     setTimeout(function () { jenkinsbuild(sfUsernamejson, sfPasswordsjson, sfjobNamejson, sfjobtokenjson, sfImageNamejson, sfImageTagjson, sfEnvironmentjson); }, 1000);
+                     sfSqxbnamejson = jsonafterData.sfSqxbname;
+                      sfNooforgsjson = jsonafterData.sfNooforgs;
+                      sfUibnamejson = jsonafterData.sfUibname;
+                      sfTimeoforgjson = jsonafterData.sfTimeoforg;
+                      sfDevhubunamejson = jsonafterData.sfDevhubuname;
+                    
+                     setTimeout(function () { jenkinsbuild(sfUsernamejson,
+                       sfPasswordsjson,
+                        sfjobNamejson,
+                         sfjobtokenjson,
+                          sfSqxbnamejson,
+                           sfNooforgsjson,
+                           sfUibnamejson,
+                           sfTimeoforgjson,
+                           sfDevhubunamejson); }, 1000);
                     }, 2000);
                 
-                    function jenkinsbuild(sfUsernamejson:any, sfPasswordsjson:any, jobname:any, jobtoken:any, sfImageNamejson:any, sfImageTagjson:any, sfEnvironmentjson:any){
-                      var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
+                    function jenkinsbuild(sfUsernamejson:any, sfPasswordsjson:any,
+                       jobname:any, 
+                       jobtoken:any,
+                       sfSqxbnamejson:any,                        
+                        sfNooforgsjson:any,
+                        sfUibnamejson:any, 
+                         sfTimeoforgjson:any,
+                          sfDevhubunamejson:any){
+                      var jenkins = require('jenkins')({ baseUrl: `https://${sfUsernamejson}:${sfPasswordsjson}@ci-cd.compliancequest.com`, crumbIssuer: true });
             
             
-                        jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  { "IMAGE_NAME":`${sfImageNamejson}`,"IMAGE_TAG":`${sfImageTagjson}`,"ENVIRONMENT":`${sfEnvironmentjson}`}}, function(err:any) {
+                        jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`,parameters:  {
+                          "sqxBranchName": `${sfSqxbnamejson}`,
+                           "numberOfOrgs": `${sfNooforgsjson}`,
+                            "uiBranchName": `${sfUibnamejson}`,
+                            "durationOfOrg": `${sfTimeoforgjson}`,
+                             "devHubUsername": `${sfDevhubunamejson}`
+                        }}, function(err:any) {
                           if (err) {
                             vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
                           }else{              vscode.window.showInformationMessage(`Jenkins Job ${jobname} Has Triggered Succesfully`);
@@ -551,7 +650,7 @@ export async function sfdxorgcreator() {
                     
                             function jenkinsbuild(sfUsernamejson:any,sfPasswordsjson:any,jobname:any,jobtoken:any){
                     
-                              var jenkins = require('jenkins')({ baseUrl: `http://${sfUsernamejson}:${sfPasswordsjson}@localhost:8080`, crumbIssuer: true });
+                              var jenkins = require('jenkins')({ baseUrl: `https://${sfUsernamejson}:${sfPasswordsjson}@ci-cd.compliancequest.com`, crumbIssuer: true });
                               jenkins.job.build({ name: `${jobname}` , token: `${jobtoken}`}, function(err:any) {
                                 if (err) {
                                   vscode.window.showErrorMessage(`Jenkins Job ${jobname} Has Failed : Try Again Or Check The Parameter;`);
