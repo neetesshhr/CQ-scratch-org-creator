@@ -1,4 +1,4 @@
-
+import * as vscode from "vscode";
 const {exec} = require("child_process");
 const path = require('path');
 const os = require('os');
