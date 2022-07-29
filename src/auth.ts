@@ -1,4 +1,6 @@
-import * as vscode from "vscode";
+
+import * as vscode from 'vscode';
+
 const {exec} = require("child_process");
 const path = require('path');
 const os = require('os');
@@ -143,7 +145,7 @@ export async function sfdxorgcreator() {
             prompt:'Enter Numbers of Orgs what you want to create',
             placeHolder: 'Enter Numbers of Orgs what you want to create',
             validateInput: (text: string): string | undefined => {
-                if (/[^0-9]/.test(text) ) {
+                if (!(text) || /[^0-9]/.test(text) ) {
                     return 'Enter Number of orgs';
                 } else {
                     return undefined;
@@ -165,7 +167,7 @@ export async function sfdxorgcreator() {
             prompt:'Enter Timeout for Org creation',
             placeHolder: 'Enter Timeout for Org creation',
             validateInput: (text: string): string | undefined => {
-              if (/[^0-9]/.test(text) ) {
+              if (!(text) || /[^0-9]/.test(text) ) {
                 return 'Enter Timeout for Org creation';
                 } else {
                     return undefined;
@@ -454,7 +456,7 @@ export async function sfdxorgcreator() {
                     prompt:'Enter Number of Orgs',
                     placeHolder: 'Enter Number of Orgs',
                     validateInput: (text: string): string | undefined => {
-                      if (/[^0-9]/.test(text) ) {
+                      if (!(text) || /[^0-9]/.test(text) ) {
                         return 'Enter your nooforgs';
                         } else {
                             return undefined;
@@ -476,7 +478,7 @@ export async function sfdxorgcreator() {
                     prompt:'Enter Timeout for Orgs',
                     placeHolder: 'Enter Timeout for Orgs',
                     validateInput: (text: string): string | undefined => {
-                      if (/[^0-9]/.test(text) ) {
+                      if (!(text) || /[^0-9]/.test(text) ) {
                         return 'Enter your timeoforg';
                         } else {
                             return undefined;
